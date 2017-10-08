@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Graph Example</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body ng-app="myApp">
+
+	<h2>
+		Welcome to google graphs 
+	</h2>
+
+	<div class="container" ng-controller="myController">
+		{{user}}
+		<div id="piechart" style="width: 900px; height: 500px;"></div>
+	</div>
+
+</body>
+<script type="text/javascript">
+	google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+var googleData=[
+    ['Daily Calls', 'No of Calls'],
+    
+  ];
+  var dataGoggle=[];
+function drawChart() {
+	alert(googleData);
+	 var dataarray=[];
+  var data1 = google.visualization.arrayToDataTable(googleData);
+
+  var options = {
+    title: 'Daily Call Records'
+  };
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+  chart.draw(data1, options);
+}
+	var app=angular.module("myApp",[])
+	.controller("myController",['$http','$scope',function ($http,$scope) 
+	{
+		
+		$scope.user="hello";
+        var url = "http://localhost:3000/getCallRecords";
+        $http.get(url).success(function (response) 
+        {
+        	
+        		 googleData.push( ['allCalls', response[0].allCalls]); 
+        		 googleData.push( ['rejectCalls', response[0].rejectCalls]); 
+        		 googleData.push( ['complete', response[0].complete]); 
+        		 googleData.push( ['incomplete', response[0].incomplete]); 
+          	drawChart();
+        })
+        .error(function(error)
+        {
+        	console.log("hello error"+error);
+        });
+	}]);
+
+
+</script>
+</html>
