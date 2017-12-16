@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+    <script>
+        angular.module("myapp", [])
+            .controller("MyController", function ($scope, $interval, $timeout) {
+                $scope.totalCount = 0;
+                $scope.initialCount = 0;
+                $scope.sClients = [{
+                    nClientId: "-1",
+                    sClientName: "All"
+                },
+                {
+                    nClientId: "1",
+                    sClientName: "Arham"
+                },
+                {
+                    nClientId: "2",
+                    sClientName: "Choice"
+                },
+                {
+                    nClientId: "3",
+                    sClientName: "Tradebull"
+                }
+                ];
+
+                $scope.sSegments = [{
+                    nSegmentGroupId: "-1",
+                    sSegmentName: "All"
+                },
+                {
+                    nSegmentGroupId: "1",
+                    sSegmentName: "Equity"
+                },
+                {
+                    nSegmentGroupId: "2",
+                    sSegmentName: "Comodity"
+                },
+                {
+                    nSegmentGroupId: "3",
+                    sSegmentName: "Exchange"
+                }
+                ];
+
+
+
+                $scope.nClientId = '-1';
+                $scope.nSegmentGroupId = '-1';
+
+                $scope.getData = function () {
+                    $scope.totalCount = 5;
+
+                    console.log("count no " + $scope.initialCount);
+                    console.log("Client Id is :" + $scope.nClientId);
+                    console.log("Client Id is :" + $scope.nSegmentGroupId);
+
+                };
+
+
+
+
+                $scope.getInfo = function () {
+                    $scope.initialCount = $scope.initialCount + 1;
+                    // console.log("Calling Info Function");
+
+
+                    console.log("Client Id is :" + $scope.nClientId);
+                    console.log("Client Id is :" + $scope.nSegmentGroupId);
+
+                };
+
+                if ($scope.initialCount <= $scope.totalCount) {
+
+                    var intervalStart = $interval(function () {
+
+                        console.log("interval called");
+                        if ($scope.initialCount >= $scope.totalCount) {
+                            $interval.cancel(intervalStart);
+                        }
+                        else {
+                            $scope.getData();
+                            $scope.getInfo();
+                        }
+
+                    }, 2000);
+                }
+                else {
+                    console.log("all fetched");
+                }
+
+                $scope.getData();
+
+
+
+
+
+
+            });
+    </script>
+</head>
+
+<body ng-app="myapp">
+    <div ng-controller="MyController">
+
+        <h2>Set default value in dropdown list in AngularJs</h2>
+        <div>
+            Select sClientName :
+            <select ng-change="getData()" ng-model="nClientId" ng-options="sClient.nClientId as sClient.sClientName for sClient in sClients"></select>
+        </div>
+        <div>
+            Client-Id : {{nClientId}}
+        </div>
+
+        <h2>Set default value in dropdown list in AngularJs</h2>
+        <div>
+            Select Segment :
+            <select ng-change="getInfo()" ng-model="nSegmentGroupId" ng-options="sSegment.nSegmentGroupId as sSegment.sSegmentName for sSegment in sSegments"></select>
+        </div>
+        <div>
+            Segment Id : {{nSegmentGroupId}}
+        </div>
+
+
+        <div>
+
+            <div>
+
+                <p>{{nClientId}}</p>
+                <p>{{nSegmentGroupId}}</p>
+            </div>
+
+        </div>
+        <div>
+
+            <p>Getting Info Of</p>
+            <p>{{nClientId}}</p>
+            <p>{{nSegmentGroupId}}</p>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>
