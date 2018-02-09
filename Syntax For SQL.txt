@@ -1,0 +1,43 @@
+// Stp Syntax to update Table
+
+DROP PROCEDURE IF EXISTS tbl_Employee;
+CREATE PROCEDURE stp_Employee(
+V_EmployeeId int,
+ V_CompanyName varchar(100) NOT NULL,
+V_UserName varchar (250)
+)
+BEGIN
+  
+UPDATE tbl_Employee  
+SET CompanyName = V_CompanyName
+WHERE EmployeeId = V_EmployeeId or sUserName =V_UserName;
+
+
+END;
+
+
+//STP syntax  for Employee To Insert Record
+
+CREATE TABLE tbl_Employee (
+  EmployeeId int(11) NOT NULL,
+  UserName varchar(100) NOT NULL,
+  CompanyName varchar(100) NOT NULL,
+  On timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) 
+
+DROP PROCEDURE IF EXISTS stp_Employee;
+CREATE PROCEDURE stp_Employee(
+V_EmployeeId int,
+V_UserName varchar (250),
+V_CompanyName varchar(250),
+V_Message varchar(250)
+
+)
+BEGIN
+
+INSERT INTO tbl_Employee ( EmployeeId ,UserName, CompanyName,  On ) values
+						 (V_EmployeeId, V_UserName, V_CompanyName, v_Message, now() ); 
+                    
+END;
+
+// end 
